@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>地图</title>
+	<link rel="stylesheet" href="http://i.gtimg.cn/vipstyle/frozenui/2.0.0/css/frozen.css">
+	<link rel="stylesheet" type="text/css" href="css/map.css">
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=1M2V3Gi6Uw2G0ZOce4OMMHUdob00N7Ea"></script>
+</head>
+<body>
+<div id="allmap">
+	
+</div>
+<script type="text/javascript">
+   var ak='5Kc6EPiKa8ou0hP3OfILgwPDhI6IudXd';
+   var service_id='205672';
+
+	     //开启鼠标滚轮缩放
+
+
+	$(function(){
+		function Entity(){
+			 this.ak='5Kc6EPiKa8ou0hP3OfILgwPDhI6IudXd';
+             this.service_id='205672';
+             this.sedMessage={
+             	"ak":this.ak,
+             	"service_id":this.service_id,
+             	 "entity_name":"霸王",
+  				 "entity_desc":"追到我就让你嘿嘿嘿"
+
+             }
+             var self=this;
+             this.init=function(){
+             	// 百度地图API功能
+				self.map =map= new BMap.Map("allmap");    // 创建Map实例
+				map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
+				//添加地图类型控件
+				map.addControl(new BMap.MapTypeControl({
+					mapTypes:[
+			            BMAP_NORMAL_MAP,
+			            BMAP_HYBRID_MAP
+			        ]}));	  
+				map.setCurrentCity("北京");          // 设置地图显示的城市 此项是必须设置的
+				map.enableScrollWheelZoom(true);
+             	var geolocation = new BMap.Geolocation();
+				geolocation.getCurrentPosition(function(r){
+					if(this.getStatus() == BMAP_STATUS_SUCCESS){
+						var mk = new BMap.Marker(r.point);
+						map.addOverlay(mk);
+						map.panTo(r.point);
+						map.centerAndZoom(r.point, 11);  // 
+						console.log('您的位置：'+r.point.lng+','+r.point.lat);
+					}
+					else {
+						alert('failed'+this.getStatus());
+					}        
+				});
+             }
+             this.init();
+
+		}
+		
+		Entity.prototype.say=function(){
+			console.log(123);
+		}
+		Entity.prototype.add=function(){
+			console.log('sendMessage',this.sedMessage);
+			$.ajax({
+				url:"http://yingyan.baidu.com/api/v3/entity/add",
+				data:'',
+				dataType:'',
+				success:function(res){
+
+				}
+			})
+		}
+		Entity.prototype.update=function(){
+			console.log('sendMessage',this.sedMessage);
+			$.ajax({
+				url:"http://yingyan.baidu.com/api/v3/entity/update",
+				data:'',
+				dataType:'',
+				success:function(res){
+
+				}
+			})
+		}
+	    Entity.prototype.delete=function(){
+			console.log('sendMessage',this.sedMessage);
+			$.ajax({
+				url:"http://yingyan.baidu.com/api/v3/entity/delete",
+				data:'',
+				dataType:'',
+				success:function(res){
+
+				}
+			})
+		}
+		Entity.prototype.list=function(){
+			console.log('sendMessage',this.sedMessage);
+			$.ajax({
+				url:"http://yingyan.baidu.com/api/v3/entity/list",
+				data:'',
+				dataType:'',
+				success:function(res){
+
+				}
+			})
+		}
+
+		Entity.prototype.addpoint=function(sendData){
+			console.log('sendMessage',this.sedMessage);
+			$.ajax({
+				url:"http://yingyan.baidu.com/api/v3/track/addpoint",
+				data:'',
+				dataType:'',
+				success:function(res){
+
+				}
+			})
+		}
+
+		var entity=new Entity();
+		entity.add();
+
+		console.log('时间戳',new Date().getTime());
+		var sendData={
+			"ak":this.ak,
+             	"service_id":this.service_id,
+             	 "entity_name":"霸王",
+  				 "entity_desc":"追到我就让你嘿嘿嘿",
+  				 "latitude":"31.24916171",
+  				 "longitude":"121.48789949",
+  				 "loc_time":new Date().getTime(),
+  				 "coord_type_input":"bd09ll"
+		}
+      entity.addpoint(sendData);
+	})
+</script>
+</body>
+</html>
